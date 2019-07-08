@@ -1,0 +1,42 @@
+{
+  "name": "crypto-currency-tracker",
+  "version": "1.0.0",
+  "description": "For tracking latest rate of bitcoin and etherium against major fiat currencies",
+  "main": "src/index.js",
+  "repository": "https://github.com/nzediegwu1/crypto-currency-tracker.git",
+  "author": "anaeze <nzediegwu1@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nzediegwu1/crypto-currency-tracker/issues"
+  },
+  "homepage": "https://github.com/nzediegwu1/crypto-currency-tracker#readme",
+  "scripts": {
+    "start": "node src/dist/index.js",
+    "dev": "babel-watch src/index.js",
+    "build": "babel src -d src/dist --copy-files --ignore src/dist"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
+    "babel-watch": "^7.0.0",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "eslint": "^4.18.1",
+    "express": "^4.16.2",
+    "express-validator": "^5.3.1",
+    "ms": "^2.1.2",
+    "volleyball": "^1.4.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0"
+  }
+}
+

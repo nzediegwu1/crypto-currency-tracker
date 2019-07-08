@@ -1,2 +1,2 @@
 # crypto-currency-tracker
-A microservice, which retrieves current rates by following pairs BTC/EUR, BTC/USD, BTC/GBP, ETH/EUR, ETH/USD, ETH/GBP from CoinMarketCap within set intervals
+A microservice which periodically retrieves currency rates from CoinMarketCap, for the following pairs: BTC/EUR, BTC/USD, BTC/GBP, ETH/EUR, ETH/USD, ETH/GBP
