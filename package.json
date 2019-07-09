@@ -32,6 +32,8 @@
     "express": "^4.16.2",
     "express-validator": "^5.3.1",
     "ms": "^2.1.2",
+    "pg": "^7.11.0",
+    "pg-hstore": "^2.3.3",
     "sequelize": "^5.9.4",
     "volleyball": "^1.4.1"
   },

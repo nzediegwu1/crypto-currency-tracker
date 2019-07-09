@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const {
   DB_USER, DB_PASSWORD, DB_NAME, DB_DIALECT, DB_HOST,
 } = process.env;
