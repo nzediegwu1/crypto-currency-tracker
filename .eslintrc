@@ -6,5 +6,8 @@
     "es6": true,
     "mocha": true
   },
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "rules": {
+    "import/prefer-default-export": 0
+  }
 }
