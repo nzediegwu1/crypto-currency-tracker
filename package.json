@@ -33,7 +33,6 @@
     "express-validator": "^5.3.1",
     "ms": "^2.1.2",
     "sequelize": "^5.9.4",
-    "sequelize-cli": "^5.5.0",
     "volleyball": "^1.4.1"
   },
   "devDependencies": {

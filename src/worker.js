@@ -1,6 +1,7 @@
 import convertCoin from './currencyConverter';
+import db from '../models';
 
-const coins = [{ id: 1, model: 'bitcoin' }, { id: 1027, model: 'etherium' }];
+const coins = [{ id: 1, model: db.bitcoinRates }, { id: 1027, model: db.etheriumRates }];
 const executeConversions = coin =>
   convertCoin(coin.id)
     .then(([usd, eur, gbp]) => {
