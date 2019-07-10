@@ -2,6 +2,6 @@ const { commonProperties } = require('.');
 
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('bitcoinRates', commonProperties(Sequelize)),
-  down: queryInterface => queryInterface.dropTable('bitcoinRates'),
+    queryInterface.createTable('BitcoinRates', commonProperties(Sequelize)),
+  down: queryInterface => queryInterface.dropTable('BitcoinRates'),
 };

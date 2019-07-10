@@ -35,10 +35,12 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-export const common = DataTypes => ({
-  usd: DataTypes.INTEGER,
-  eur: DataTypes.INTEGER,
-  gbp: DataTypes.INTEGER,
-});
+export function common(DataTypes) {
+  return {
+    usd: DataTypes.DOUBLE,
+    eur: DataTypes.DOUBLE,
+    gbp: DataTypes.DOUBLE,
+  };
+}
 
 module.exports = db;

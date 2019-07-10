@@ -35,6 +35,7 @@ app.use(bodyParser.json());
 const startApp = () =>
   app.listen(port, () => {
     console.log(`Server is running at port ${port}`);
+    console.log(`Timer Interval is set to ${INTERVAL}`);
     // ping heroku app to prevent it from going to sleep
     setInterval(() => http.get(BASE_URL), ms(PING_INTERVAL));
     // fetch new rates every INTERVAL duration
@@ -60,19 +61,18 @@ if (NODE_ENV === 'production') {
   } else {
     startApp();
   }
+  // Catch random errors not handled, log them and exit the process
+  process
+    .on('uncaughtException', (error) => {
+      logError(error, { errorType: 'Uncaught Exception' });
+      process.exit(1);
+    })
+    .on('unhandledRejection', (error) => {
+      logError(error, { errorType: 'Unhandled Promise Rejection' });
+      process.exit(1);
+    });
 } else {
   startApp();
 }
-
-// Catch random errors not handled, log them and exit the process
-process
-  .on('uncaughtException', (error) => {
-    logError(error, { errorType: 'Uncaught Exception' });
-    process.exit(1);
-  })
-  .on('unhandledRejection', (error) => {
-    logError(error, { errorType: 'Unhandled Promise Rejection' });
-    process.exit(1);
-  });
 
 export default app;

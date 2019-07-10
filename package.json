@@ -11,9 +11,11 @@
   },
   "homepage": "https://github.com/nzediegwu1/crypto-currency-tracker#readme",
   "scripts": {
-    "start": "node src/dist/index.js",
+    "start": "NODE_ENV=production node src/dist/index.js",
     "dev": "babel-watch src/index.js",
-    "build": "babel src -d src/dist --copy-files --ignore src/dist"
+    "build": "babel src -d src/dist --copy-files --ignore src/dist",
+    "migrations": "npx sequelize-cli db:migrate",
+    "postinstall": "yarn build"
   },
   "dependencies": {
     "@babel/cli": "^7.4.4",

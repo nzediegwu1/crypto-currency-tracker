@@ -5,10 +5,14 @@ exports.commonProperties = Sequelize => ({
     primaryKey: true,
     type: Sequelize.INTEGER,
   },
-  usd: Sequelize.INTEGER,
-  eur: Sequelize.INTEGER,
-  gbp: Sequelize.INTEGER,
+  usd: Sequelize.DOUBLE,
+  eur: Sequelize.DOUBLE,
+  gbp: Sequelize.DOUBLE,
   createdAt: {
+    allowNull: false,
+    type: Sequelize.DATE,
+  },
+  updatedAt: {
     allowNull: false,
     type: Sequelize.DATE,
   },
