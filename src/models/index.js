@@ -7,7 +7,7 @@ const Sequelize = require('sequelize');
 
 const basename = path.basename(module.filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config.js')[env];
+const config = require('../config/config')[env];
 
 const db = {};
 
@@ -35,7 +35,7 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-export const baseProperties = DataTypes => ({
+export const common = DataTypes => ({
   usd: DataTypes.INTEGER,
   eur: DataTypes.INTEGER,
   gbp: DataTypes.INTEGER,
