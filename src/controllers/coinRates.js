@@ -35,7 +35,7 @@ class CoinRates {
         return models[coin].findAll({
           where: condition,
           attributes: { exclude: ['updatedAt'] },
-          offset: offset > 0 ? offset : -offset,
+          offset: Math.abs(offset),
           limit,
         });
       });
