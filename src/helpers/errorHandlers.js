@@ -1,5 +1,6 @@
 import PouchDB from 'pouchdb';
 import { promisify } from 'util';
+import { response } from '../helpers';
 
 PouchDB.plugin(require('pouchdb-adapter-node-websql'));
 
@@ -23,4 +24,19 @@ export const logError = async (error, detail) => {
     status: 'error',
     detail,
   });
+};
+
+/**
+ * @desc Resolves controller actions and returns response or handle errors
+ *
+ * @param {Function} action The controller action to resolve
+ * @returns {Object} Success or error response with corresponding status code
+ */
+export const resolver = action => async (req, res) => {
+  try {
+    return await action(req, res);
+  } catch (error) {
+    logError(error);
+    return response(res, 500, error.message);
+  }
 };

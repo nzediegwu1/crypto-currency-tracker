@@ -1,6 +1,6 @@
 import convertCoin from './coinConverter';
 import db from './models';
-import { logError } from './util';
+import { logError } from './helpers';
 
 const coins = [{ id: 1, model: db.BitcoinRates }, { id: 1027, model: db.EtheriumRates }];
 

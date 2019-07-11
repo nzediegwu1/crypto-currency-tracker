@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 /* eslint-disable no-console */
 import express from 'express';
 import http from 'http';
@@ -10,7 +9,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import cluster from 'cluster';
 import appWorker from './worker';
-import { logError } from './util';
+import { logError } from './helpers';
 import router from './routes';
 
 dotenv.config();
