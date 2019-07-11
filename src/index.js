@@ -11,6 +11,7 @@ import dotenv from 'dotenv';
 import cluster from 'cluster';
 import appWorker from './worker';
 import { logError } from './util';
+import router from './routes';
 
 dotenv.config();
 const {
@@ -31,7 +32,7 @@ app.use(volleyball);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// app.use('/', routes);
+app.use('/', router);
 const startApp = () =>
   app.listen(port, () => {
     console.log(`Server is running at port ${port}`);
