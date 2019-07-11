@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import db from '../models';
 import { resolver, response } from '../helpers';
 import { success } from '../messages';
@@ -20,8 +21,34 @@ class CoinRates {
    * @returns {Function} Request handler: processes the request and returns success response
    */
   getRates = coin => async (req, res) => {
-    const data = await models[coin].findAll();
-    return response(res, 200, success.fetched(coin), data);
+    const { from, to } = req.query;
+    let { page = 1, limit = 5 } = req.query;
+    const toDate = to ? new Date(to) : new Date();
+    const condition = from ? { createdAt: { [Op.between]: [new Date(from), toDate] } } : {};
+    page = +page;
+    limit = +limit;
+    const paginatedResponse = await models[coin]
+      .findAndCountAll({ where: condition })
+      .then(({ count }) => {
+        const pages = Math.ceil(count / limit);
+        const offset = page > pages ? (pages - 1) * limit : (page - 1) * limit;
+        return models[coin].findAll({
+          where: condition,
+          attributes: { exclude: ['updatedAt'] },
+          offset: offset > 0 ? offset : -offset,
+          limit,
+        });
+      });
+    return response(res, 200, success.fetched(coin), {
+      result: paginatedResponse,
+      metaData: {
+        page,
+        limit,
+        from: from || '',
+        to: to || '',
+        count: paginatedResponse.length,
+      },
+    });
   };
 }
 
