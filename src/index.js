@@ -38,30 +38,21 @@ const startApp = () =>
     console.log(`Timer Interval is set to ${INTERVAL}`);
     // ping heroku app to prevent it from going to sleep
     setInterval(() => http.get(BASE_URL), ms(PING_INTERVAL));
-    // fetch new rates every INTERVAL duration
     setInterval(() => appWorker(), ms(INTERVAL));
   });
 
-// Setup a default catch-all for routes not defined
+// Catch-all requests to routes not defined
 app.get('*', (req, res) =>
   res.status(404).json({
     message: 'Page not found',
   }));
 
-// Handle starting and restarting of worker/app
-if (NODE_ENV === 'production') {
-  if (cluster.isMaster) {
-    console.log('Cluster started. Worker starting....');
-    cluster.fork();
-    // Restart worker before exiting the cluster
-    cluster.on('exit', (worker) => {
-      console.log('Worker %s died. Restart...', worker.process.pid);
-      cluster.fork();
-    });
-  } else {
-    startApp();
-  }
-  // Catch random errors not handled, log them and exit the process
+/**
+ * @desc Catch unhandled exceptions in production, log and exits process
+ *
+ * @returns {process}
+ */
+const catchUnhandledErrors = () =>
   process
     .on('uncaughtException', (error) => {
       logError(error, { errorType: 'Uncaught Exception' });
@@ -71,8 +62,28 @@ if (NODE_ENV === 'production') {
       logError(error, { errorType: 'Unhandled Promise Rejection' });
       process.exit(1);
     });
-} else {
-  startApp();
-}
+
+const clusterIsMaster = {
+  true: () => {
+    console.log('Cluster started. Starting worker....');
+    cluster.fork();
+    cluster.on('exit', (worker) => {
+      console.log('Worker %s died. Restarting...', worker.process.pid);
+      cluster.fork();
+    });
+  },
+  false: startApp,
+};
+
+// Handle starting/restarting of app
+const appFunctions = {
+  ['development' || 'test']: startApp,
+  production: () => {
+    clusterIsMaster[cluster.isMaster]();
+    catchUnhandledErrors();
+  },
+};
+
+appFunctions[NODE_ENV]();
 
 export default app;

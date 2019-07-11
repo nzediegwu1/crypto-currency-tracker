@@ -1,7 +1,10 @@
 import PouchDB from 'pouchdb';
 import { promisify } from 'util';
 
-const pouchDB = new PouchDB('error-logs');
+PouchDB.plugin(require('pouchdb-adapter-node-websql'));
+
+const pouchDB = new PouchDB('logDatabase.db', { adapter: 'websql' });
+
 const logs = {
   put: promisify(pouchDB.put).bind(pouchDB),
 };
@@ -12,7 +15,7 @@ const logs = {
  * @param {Error} error Error to be logged
  * @param {String} type The type of error to log: uncaughtException || unhandledRejection
  */
-export const logError = (error, detail) => {
+export const logError = async (error, detail) => {
   logs.put({
     _id: new Date().toString(),
     message: error.message || error,

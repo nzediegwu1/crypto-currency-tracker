@@ -11,14 +11,11 @@ const coins = [{ id: 1, model: db.BitcoinRates }, { id: 1027, model: db.Etherium
  * @returns {void}
  */
 async function executeConversions(coin) {
-  try {
-    const [usd, eur, gbp] = await convertCoin(coin.id);
-    await coin.model.create({ usd, eur, gbp });
-  } catch (error) {
-    logError(error, { coin: coin.id, errorResponse: error.response });
-  }
+  const [usd, eur, gbp] = await convertCoin(coin.id);
+  await coin.model.create({ usd, eur, gbp });
 }
 
-export default () => {
-  coins.forEach(coin => executeConversions(coin));
+export default async () => {
+  Promise.all(coins.map(coin => executeConversions(coin))).catch(error =>
+    logError(error, { errorResponse: error.response }));
 };
