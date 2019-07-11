@@ -13,9 +13,9 @@
   "scripts": {
     "start": "NODE_ENV=production node src/dist/index.js",
     "dev": "babel-watch src/index.js",
-    "build": "babel src -d src/dist --copy-files --ignore src/dist",
+    "build": "babel src -d src/dist --ignore src/dist",
     "migrations": "npx sequelize-cli db:migrate",
-    "postinstall": "yarn build"
+    "postinstall": "yarn build && yarn migrations"
   },
   "dependencies": {
     "@babel/cli": "^7.4.4",
