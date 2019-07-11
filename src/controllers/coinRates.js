@@ -6,6 +6,12 @@ const models = {
   bitcoin: db.BitcoinRates,
   etherium: db.EtheriumRates,
 };
+
+/**
+ * @desc Handles http requests for supported cryptocurrency rates
+ *
+ * @class CoinRates
+ */
 class CoinRates {
   /**
    * @desc Endpoint for getting coin rates for a given coin
@@ -20,6 +26,7 @@ class CoinRates {
 }
 
 const coins = new CoinRates();
+
 export default {
   getRates: coin => resolver(coins.getRates(coin)),
 };
