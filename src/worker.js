@@ -17,5 +17,5 @@ async function executeConversions(coin) {
 
 export default async () => {
   Promise.all(coins.map(coin => executeConversions(coin))).catch(error =>
-    logError(error, { errorResponse: error.response }));
+    logError(error));
 };

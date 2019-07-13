@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import express from 'express';
 import http from 'http';
 import ms from 'ms';
@@ -6,6 +5,7 @@ import volleyball from 'volleyball';
 import bodyParser from 'body-parser';
 import '@babel/polyfill';
 import cors from 'cors';
+import { transports, createLogger, format } from 'winston';
 import dotenv from 'dotenv';
 import cluster from 'cluster';
 import appWorker from './worker';
@@ -32,10 +32,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/', router);
+
+// log errors and information
+export const logger = createLogger({
+  format: format.combine(format.timestamp(), format.json()),
+  transports: [new transports.Console(), new transports.File({ filename: 'combined.log' })],
+});
+
 const startApp = () =>
   app.listen(port, () => {
-    console.log(`Server is running at port ${port}`);
-    console.log(`Timer Interval is set to ${INTERVAL}`);
+    logger.info(`Server is running at port ${port}`);
+    logger.info(`Timer Interval is set to ${INTERVAL}`);
     // ping heroku app to prevent it from going to sleep
     setInterval(() => http.get(BASE_URL), ms(PING_INTERVAL));
     setInterval(() => appWorker(), ms(INTERVAL));
@@ -47,6 +54,11 @@ app.get('*', (req, res) =>
     message: 'Page not found',
   }));
 
+const logAndExit = (error) => {
+  logError(error);
+  process.exit(1);
+};
+
 /**
  * @desc Catch unhandled exceptions in production, log and exits process
  *
@@ -55,20 +67,18 @@ app.get('*', (req, res) =>
 const catchUnhandledErrors = () =>
   process
     .on('uncaughtException', (error) => {
-      logError(error, { errorType: 'Uncaught Exception' });
-      process.exit(1);
+      logAndExit(error);
     })
     .on('unhandledRejection', (error) => {
-      logError(error, { errorType: 'Unhandled Promise Rejection' });
-      process.exit(1);
+      logAndExit(error);
     });
 
 const clusterIsMaster = {
   true: () => {
-    console.log('Cluster started. Starting worker....');
+    logger.info('Cluster started. Starting worker....');
     cluster.fork();
     cluster.on('exit', (worker) => {
-      console.log('Worker %s died. Restarting...', worker.process.pid);
+      logger.warn('Worker %s died. Restarting...', worker.process.pid);
       cluster.fork();
     });
   },
