@@ -20,6 +20,7 @@ export const handleValidation = async (req, res, next) => {
 const isValidDate = date => !isNaN(Date.parse(date.trim()));
 // "to" query go with a "from" query
 const withFrom = (to, { req: { query } }) => query.from;
+const isGreaterThanStartDate = (to, { req: { query } }) => new Date(to) > new Date(query.from);
 
 export const validateGetRates = [
   check('to')
@@ -28,7 +29,9 @@ export const validateGetRates = [
     .withMessage('Query string: <to>, is not a valid date')
     .custom(withFrom)
     .optional()
-    .withMessage('Query string: <to>, has no corresponding <from> query'),
+    .withMessage('Query string: <to>, has no corresponding <from> query')
+    .custom(isGreaterThanStartDate)
+    .withMessage('End date should be greater than Start date'),
   check('from')
     .custom(isValidDate)
     .optional()

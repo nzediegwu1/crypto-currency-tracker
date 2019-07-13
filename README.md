@@ -28,8 +28,8 @@ A microservice which periodically retrieves currency rates from CoinMarketCap, f
     
       - Retrieve records of latest cryptocurrency rates in descending order
       - Apply pagination to returned data
-      - Search records from and to given timestamps
-      - Retrieve application logs using endpoint /logs
+      - Search records `from` and `to` given timestamps
+      - Retrieve application logs using endpoint: `GET /logs`
   
   
 ## Technologies
@@ -68,7 +68,9 @@ A microservice which periodically retrieves currency rates from CoinMarketCap, f
 
 ## Documentation
 
-* The API was documented using postman. To view, click [here](http://eventmanageronline.herokuapp.com/api/v1/docs)
+* The API was documented using postman.
+1. To view on Postman: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/748bfdae01b196cbf17c)
+2. Online Documentation: [Click here](https://documenter.getpostman.com/view/4912237/SVSHrVC3?version=latest)
 
 
 ## Limitations
