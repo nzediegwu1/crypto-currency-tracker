@@ -22,7 +22,7 @@ class CoinRates {
    */
   getRates = coin => async (req, res) => {
     const { from, to } = req.query;
-    let { page = 1, limit = 5 } = req.query;
+    let { page = 1, limit = 10 } = req.query;
     const toDate = to ? new Date(to) : new Date();
     const condition = from ? { createdAt: { [Op.between]: [new Date(from), toDate] } } : {};
     page = +page;
@@ -37,6 +37,7 @@ class CoinRates {
           attributes: { exclude: ['updatedAt'] },
           offset: Math.abs(offset),
           limit,
+          order: [['createdAt', 'DESC']],
         });
       });
     return response(res, 200, success.fetched(coin), {
