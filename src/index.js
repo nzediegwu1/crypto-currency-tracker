@@ -95,5 +95,3 @@ const appFunctions = {
 };
 
 appFunctions[NODE_ENV]();
-
-export default app;
