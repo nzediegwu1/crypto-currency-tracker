@@ -43,8 +43,6 @@ const startApp = () =>
   app.listen(port, () => {
     logger.info(`Server is running at port ${port}`);
     logger.info(`Timer Interval is set to ${INTERVAL}`);
-    // ping heroku app to prevent it from going to sleep
-    setInterval(() => http.get(BASE_URL), ms(PING_INTERVAL));
     setInterval(() => appWorker(), ms(INTERVAL));
   });
 
