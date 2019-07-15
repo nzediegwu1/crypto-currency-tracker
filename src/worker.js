@@ -12,7 +12,7 @@ const coins = [{ id: 1, model: db.BitcoinRates }, { id: 1027, model: db.Etherium
  */
 async function executeConversions(coin) {
   const [usd, eur, gbp] = await convertCoin(coin.id);
-  await coin.model.create({ usd, eur, gbp });
+  return coin.model.create({ usd, eur, gbp });
 }
 
 export default async () => {
